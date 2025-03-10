@@ -1,0 +1,214 @@
+---
+title: "Introduction to Object-Oriented Programming"
+author: "Edward Chick"
+highlight-style: github
+---
+
+## Learning Objectives
+- Understand core concepts of object-oriented programming
+- Understand the benefits of object-oriented programming
+- Learn how to create your own object classes
+
+## History
+- In the early days of programming, variables could only be the "primitive" data types containing a single value
+  - Integer, Float, Boolean, Char
+- Later came Structures ("Structs"), which can contain multiple values of different types.
+- Structs were the precursor to objects, but they couldn't yet contain associated functions within them
+- Objects first appear in the Simula programming language in the 1960s for modelling physical phenomena
+- Those objects influenced Alan Kay, who coined the term "object-oriented programming" to decribe architecture where objects pass information to one another
+
+
+## Fast-forward to the present day
+- Python is an object-oriented language, where everything is effectively an object based on class "templates"
+
+```{python}
+
+# Here we are calling the "append" method of the list class.
+
+icb_list = ['QRL','QNQ','QU9','QSL'] # a list object
+
+icb_list.append('QNX') # calling the method and passing a parameter
+
+print(icb_list)
+
+```
+
+- Since Python is an object-oriented language, there's no reason not to create our own classes!
+
+## Key Benefits
+- Useful for modelling real-world entities (e.g. simulations of hospital wards to solve queuing problems)
+- Makes code more re-usable and extensible
+- Simplifies the programmer's interaction with a program
+- Simplifies the interaction between different parts of a program
+
+# Key Concepts {data-background-color="#425563"}
+[- Classes - Objects]{style="color: #E8EDEE"}\
+[- Encapsulation - Inheritance - Polymorphism - Abstraction]{style="color: #E8EDEE"}
+
+## Classes and Objects
+- Classes act as **templates** for objects
+- Objects are instances of classes
+  - We talk of objects being "instantiated" from a class
+- Objects represent entities with their own data (attributes) and behaviours (methods)
+- We can create lots of instances of an object with their own attribute values and call methods on them separately
+and _consistently_
+- Objects are self-contained units that can interact with objects both of the same and of other classes
+
+# The Anatomy of Classes and Objects {data-background-color="#425563"}
+
+---
+
+![A diagram representing a class at the top and object instances created from the class](images/classes1.png){fig-align="center"}
+
+---
+
+## A quick note on _constructors_
+
+- The constructor method defines the attributes specific to an object instance when it is created (instantiated)
+- As the method name `__init__` suggests, these are the _initial_ values
+- It does not affect anything defined as a class attribute
+
+![](images/village_people_construction_worker.jpg){fig-align="center"}
+
+---
+
+[**Python code for creating a class**]{style="color: #005EB8"}
+
+```{python}
+# Use the "class" keyword. Class names should start with a 
+# capital letter
+class HealthProfessional:
+  # Class attributes go here. The value of this attribute 
+  # will be the same for all object instances
+  daily_capacity = 7.5 # number of working hours per day
+
+  # Constructor method. It always contains "self" followed by 
+  # the parameters passed at instantiation
+  def __init__(self, assignment_number, division, department):
+    self.assignment_number = assignment_number                 
+    self.division = division                  # Instance attributes                
+    self.department = department                              
+
+  # Class methods. Always have at least "self" as a parameter, 
+  # followed by any parameters passed to the object
+  def treat_patient(self,patient_id):
+    print(f'Health professional {self.assignment_number} treated patient {patient_id}')
+
+
+# Let's instantiate a HealthProfessional
+doctor_duggee = HealthProfessional(12345,"A","Surgery")
+
+# Using the .treat_patient() method
+doctor_duggee.treat_patient("Betty")
+
+# Accessing the object's attributes
+print(f'Health Professional {doctor_duggee.assignment_number} works in the {doctor_duggee.department} department')
+
+```
+---
+
+## Inheritance
+- **Child classes inherit attributes and methods from parent classes**
+- Child classes can modify / override and add to what they have inherited
+- Reduces code duplication
+- Improves re-usability and extensibility
+
+---
+
+![A parent class (green) and two different child classes (blue and orange), each with objects created from them](images/classes2.png){fig-align="center"}
+
+---
+
+[**Python code for creating a child class from a parent class**]{style="color: #005EB8"}
+
+```{python}
+# Create the parent class
+class HealthProfessional:
+
+  daily_capacity = 7.5 
+
+  def __init__(self, assignment_number, division, department):
+    self.assignment_number = assignment_number
+    self.division = division
+    self.department = department
+
+  def treat_patient(self,patient_id):
+    print(f'Health professional {self.assignment_number} treated patient {patient_id}')
+
+# Create the child class
+# The parent class goes in parentheses after the child class name
+class Doctor(HealthProfessional):
+  def __init__(self,assignment_number,division,department,seniority):
+    self.seniority = seniority
+    super().__init__(assignment_number,division,department)
+
+  def discharge_patient(self,patient_id):
+    print(f'Doctor {self.assignment_number} discharged patient {patient_id}')
+
+# The "treat_patient" method is inherited from HealthProfessional
+
+doctor_duggee = Doctor(12345,"A","Sugery","Consultant")
+
+doctor_duggee.treat_patient("Betty")
+doctor_duggee.discharge_patient("Betty")
+print(f'Doctor {doctor_duggee.assignment_number} is a {doctor_duggee.seniority}')
+```
+
+# More Object-Oriented Programming Concepts{data-background-color="#425563"}
+
+## Encapsulation
+- **Bundling data (attributes) with functions (methods)**
+- Methods are tailor-made to work with the data contained in the object
+- Saves on having to pass data between multiple functions, which is particularly useful in machine learning models
+- Pandas DataFrames demonstrate encapsulation. They contain data, but also have methods associated with them
+  - `df = pd.DataFrame(data)` <-- Instantiating a dataframe object
+  - `df.head()`, `df.describe()`, `df.drop()` <-- calling methods
+
+## Polymorphism
+- **Objects of different types can be treated in the same way, even if the behaviour differs**
+  - With Pandas DataFrames, .head() will work on both a DataFrame and a Series^[Series.head() with return the first few values, 
+  while DataFrame.head() returns the first few rows of all columns]
+- "Duck typing": If the behaviour of a thing matches that of another thing, they are considered the same. In OOP terms, 
+the presence of certain methods is more important than which class an object comes from^[The concept of "duck typing", found 
+in Python and other languages, comes from the phrase "if it walks like a duck, quacks like a duck and swims like a duck,
+then it's a duck."]
+  - The sci-kit learn library's allows the same code to work for different models
+
+---
+
+```
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+
+models = [LogisticRegression(), SVC()]
+for model in models:
+    model.fit(X_train, y_train) # Both have .fit() method
+    preds = model.predict(X_test) # Both have .predict() method
+
+```
+---
+
+## Abstraction
+- **Separating the implementation code from the functionality that users (i.e. other programmers) interact with**
+- Creates a simple interface for parts of a program pass information between each other
+
+## When to use OOP
+- When you want to easily re-use code, to avoid repetition and to extend functionality
+- When you want to model real-world entities
+- When you want to make code modular and easy for others to work with
+- **Less appropriate for:**When you want to be certain of the state of your data at each step of a process, for example when cleansing data
+
+## Resources
+
+[RealPython: Object-Oriented Programming (OOP) in Python](https://realpython.com/python3-object-oriented-programming/)\
+\
+[freeCodeCamp - Intro to Object-Oriented Programming](https://www.youtube.com/watch?v=SiBw7os-_zI)\
+\
+[HSMA - Introduction to Python Programming Part 3 (including OOP)](https://github.com/hsma-programme/1e_python_programming_part_3/blob/main/1E_Python_Programming_Part_3/1E_web_Python_Prog_Part_3.pdf)\
+\
+[HSMA - Introduction to Discrete Event Simulation](https://github.com/hsma-programme/h6_2a_intro_to_des)
+
+---
+![Well done, Squirrels, you've earned your Object-Oriented Programming Badge!](images/oop_badge.png){fig-align="center"}
+
+

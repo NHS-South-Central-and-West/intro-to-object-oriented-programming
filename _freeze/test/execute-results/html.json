@@ -1,0 +1,12 @@
+{
+  "hash": "c7ec6e80d94436c958bffb6104404e6a",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Untitled\"\nformat: html\n---\n\n\n## Learning Objectives\n- Understand core concepts of object-oriented programming\n- Understand when it is appropriate to create your own classes\n- Learn how to create your own classes\n\n# What is Object-Oriented Programming and Why Should I Learn to Use It? {data-background-color=\"#425563\"}\n\n## History\n- In the early days of programming, variables could only be the \"primitive\" data types containing a single value\n  - Integer, Float, Boolean, Char\n- Later came Structures (Structs), which can contain multiple values of different types.\n- Structs were the precursor to objects, but they couldn't yet contain associated functions within them\n- Objects first appear in the Simula programming language in the 1960s for modelling physical phenomena\n- Those objects influenced Alan Kay, who coined the term \"object-oriented programming\" to decribe architecture where objects pass information to one another\n\n\n## Fast-forward to the present day\n- Python is an object-oriented language, where everything is effectively an object based on class \"templates\"\n\n::: {#62353353 .cell execution_count=1}\n``` {.python .cell-code}\n# Here we are calling the \"append\" method of the list class.\n\nicb_list = ['QRL','QNQ','QU9','QSL'] # a list object\n\nicb_list.append('QNX') # calling the method and passing a parameter\n\nprint(icb_list)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n['QRL', 'QNQ', 'QU9', 'QSL', 'QNX']\n```\n:::\n:::\n\n\n- Since Python is an object-oriented language, we can also create our own.\n\n",
+    "supporting": [
+      "test_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
